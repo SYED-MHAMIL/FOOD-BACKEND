@@ -9,19 +9,20 @@ const upload = multer({ storage });
 
 router.post("/", upload.single("file"), async (req, res) => {
   const file = req.file;
-  const { name, price } = req.body;
+  const { name, price,actualPrice } = req.body;
   try {
     //field condition
-    if (!name || !price || !file) {
+    if (!name || !price || !file || !actualPrice) {
       return res.status(404).send({
         message: "All field are Required",
       });
-    }
+    } 
 
     // plain object
     const newFood = {
       name: req.body.name,
       price: req.body.price,
+      actualPrice: req.body.actualPrice,
       filename: file.originalname, // Original file ka naam
       contentType: file.mimetype, // File ka type
       fileData: file.buffer,
@@ -36,14 +37,14 @@ router.post("/", upload.single("file"), async (req, res) => {
   }
 });
 
-router.get("/", async (req, res) => {
-  try {
-    const data = await Food.find();
-    res.send({ data });
-  } catch (error) {
-    res.status(404).send({ message: error });
-  }
-});
+    router.get("/", async (req, res) => {
+      try {
+        const data = await Food.find();
+        res.send({ data });
+      } catch (error) {
+        res.status(404).send({ message: error });
+      }
+    });
 
 // deleted
 
@@ -75,6 +76,7 @@ router.put("/:id", upload.single("file"), async (req, res) => {
     const newFood = {
       name: req.body.name,
       price: req.body.price,
+      actualPrice: req.body.actualPrice,
       filename: file.originalname, // Original file ka naam
       contentType: file.mimetype, // File ka type
       fileData: file.buffer,
