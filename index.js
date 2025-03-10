@@ -17,7 +17,7 @@ const {DATABASE_URL}=process.env;
 
 mongoose.connect(DATABASE_URL).then(()=>{
        console.log('database connected');
-       console.log(process.env.FRONTEND_URL)
+
 })
 
 
@@ -28,4 +28,4 @@ app.use('/order',OrderRoute)
 app.use('/webhooks', webhookRouter);
 
 
-app.listen(4000)
+app.listen(4000)     

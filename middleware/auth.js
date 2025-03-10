@@ -4,30 +4,28 @@ evn.config();
 
 const {API_SECRET} =process.env
 
+
 const authMiddleware = async (req, res, next) => {
-  const authHeader = req.header["authorization"];
-  if (!authHeader || authHeader.startsWith("Bearer ")) {
-    return res.status(404).send({ msg: "not tokken ,authorization denied" });
-  }
+    const authHeader = req.headers['authorization'];
 
-  const token = authHeader.split(" ")[1];
+    if (!authHeader || !authHeader.startsWith('Bearer ')){
+        return res.status(401).json({msg:'No token, authorization denied'});
+    }
 
-  try {
-    const decoded = jwt.compare(token,API_SECRET)  ;
-    if(!decoded) return res.status(404).send({ msg: "Invalid token" }); 
-    
-   req.user=decoded
-   console.log("decodded" , decoded);
-  next()
-    
-    
+    const token = authHeader.split(' ')[1];
 
+    try {
 
+        const decoded = jwt.verify(token,API_SECRET);
 
-  } catch (error) {
-    return res.status(404).send({ msg: error.message });
-  }
+        req.user = decoded;
+
+        next();
+
+    } catch (e) {
+        console.error("Token verification error:", e.message);
+        res.status(401).json({msg:'Token is not valid'});
+    }
 };
-
 
 export default authMiddleware

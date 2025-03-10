@@ -39,7 +39,8 @@ router.delete('/:id', auth, async (req, res) => {
 //creating a new order
 router.post('/', async (req, res) => {
     const orderData = req.body;
-
+ 
+ 
     const orderId = crypto.createHash('sha256').update(JSON.stringify(orderData)).digest('hex');
 
     try {

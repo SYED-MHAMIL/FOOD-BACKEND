@@ -24,7 +24,7 @@ router.post("/register", async(req,res) => {
      await user.save();
     const    newUser= user.toObject()
    delete newUser.password
-       const token= jwt.sign({...newUser},API_SECRET,{expiresIn :'1h'})
+       const token= jwt.sign({...newUser},API_SECRET)
 
     return res.status(200).send({
       message: "user register succesfully",
