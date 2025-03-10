@@ -37,8 +37,8 @@ router.post('/create-checkout-session', async (req,res) => {
             mode: 'payment',
             customer_email: customerEmail,
             billing_address_collection: 'required',
-            success_url:`${process.env.FRONTEND_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url:`${process.env.FRONTEND_URL}/cancel`
+            success_url:`https://eccommerce-foody.vercel.app/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url:`https://eccommerce-foody.vercel.app/cancel`
         })
 
         res.json({ id: session.id });
